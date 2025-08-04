@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
-import contactRoutes from './routes/contactRoutes.js';
+import contactRoutes from '../routes/contactRoutes.js';
 
 dotenv.config();
 
