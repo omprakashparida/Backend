@@ -37,7 +37,9 @@ const connectDB = async () => {
 connectDB();
 
 // --- MIDDLEWARES (APPLIED ONCE) ---
-app.set('trust proxy', 1);
+// Setting 'trust proxy' to true to handle Vercel's proxy setup correctly,
+// which will fix the ValidationError from express-rate-limit.
+app.set('trust proxy', true);
 app.use(helmet());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
