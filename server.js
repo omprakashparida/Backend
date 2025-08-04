@@ -50,6 +50,16 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/contact', contactRoutes);
 
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Server is running 💪',
+    timestamp: new Date().toISOString()
+  });
+});
+
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({
@@ -111,13 +121,7 @@ process.on('SIGINT', () => {
 
 
 
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Server is running 💪',
-    timestamp: new Date().toISOString()
-  });
-});
+
 
 // ✅ Correct ESM export for Vercel
 export default app;
