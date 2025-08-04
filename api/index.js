@@ -64,7 +64,6 @@ app.use((req, res, next) => {
 // --- ROUTES ---
 
 // This will correctly handle requests to: your-app.vercel.app/api/contact
-// The 'import' statement has been moved to the top of the file
 app.use('/contact', contactRoutes);
 
 // This will correctly handle requests to: your-app.vercel.app/api/health
@@ -93,7 +92,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-// --- EXPORT THE HANDLER ---
-// The handler is now just a lightweight function that passes
-// requests to our pre-built app.
-export default app;
+// --- EXPORT THE HANDLER FOR VERCEL ---
+// This is the pattern you shared, which explicitly
+// defines a serverless function handler.
+export default function handler(req, res) {
+  return app(req, res);
+}
