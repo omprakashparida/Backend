@@ -11,10 +11,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Security middleware
+// 🛡️ Security middleware
 app.use(helmet());
 
-// CORS configuration
+// ✅ Fixes rate-limit issue with Vercel (important!)
+app.set('trust proxy', 1);
+
+// 🌐 CORS setup
 const corsOptions = {
   origin: process.env.ALLOWED_ORIGINS?.split(',') || [
     'http://localhost:3000',
@@ -26,7 +29,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Global rate limiting
+// ⚡ Rate limiter
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -37,20 +40,20 @@ const globalLimiter = rateLimit({
 });
 app.use(globalLimiter);
 
-// Body parsing middleware
+// 📦 Body parser
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Logging
+// 📜 Logging
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - ${req.ip}`);
   next();
 });
 
-// Routes
+// 📬 Routes
 app.use('/api/contact', contactRoutes);
 
-
+// ✅ Health check route for Vercel
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
@@ -59,8 +62,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-
-// 404 handler
+// ❌ 404 route
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -68,7 +70,7 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
+// 🛠️ Error handler
 app.use((error, req, res, next) => {
   console.error('Global error handler:', error);
   res.status(500).json({
@@ -78,50 +80,42 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Database connection
+// 🔌 DB connect
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('❌ DB Connection Error:', error);
     process.exit(1);
   }
 };
 
-// Start server locally (only if not production)
+// 🧪 Only run server locally
 if (process.env.NODE_ENV !== 'production') {
   const startServer = async () => {
     try {
       await connectDB();
       app.listen(PORT, () => {
-        console.log(`🚀 Server running on port ${PORT}`);
-        console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-        console.log(`📧 Contact form API: http://localhost:${PORT}/api/contact/submit`);
+        console.log(`🚀 Server running at http://localhost:${PORT}`);
       });
     } catch (error) {
-      console.error('Server startup error:', error);
+      console.error('❌ Server startup error:', error);
       process.exit(1);
     }
   };
-
   startServer();
 }
 
-// Graceful shutdown
+// 🧼 Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM received, shutting down gracefully');
   process.exit(0);
 });
-
 process.on('SIGINT', () => {
   console.log('SIGINT received, shutting down gracefully');
   process.exit(0);
 });
 
-
-
-
-
-// ✅ Correct ESM export for Vercel
+// ✅ For Vercel deployment
 export default app;
