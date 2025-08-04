@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
-import contactRoutes from '../routes/contactRoutes.js';
+import contactRoutes from '../routes/contactRoutes.js'; // This is the correct and only import needed.
 
 dotenv.config();
 
@@ -61,15 +61,10 @@ app.use((req, res, next) => {
   next();
 });
 
-
-// Inside your /api/index.js file
-
-// ... (import statements, db connection, middleware)
-
 // --- ROUTES ---
 
 // This will correctly handle requests to: your-app.vercel.app/api/contact
-import contactRoutes from '../routes/contactRoutes.js'; // Note the path correction ../
+// The 'import' statement has been moved to the top of the file
 app.use('/contact', contactRoutes);
 
 // This will correctly handle requests to: your-app.vercel.app/api/health
@@ -81,8 +76,6 @@ app.get('/health', (req, res) => {
     time: new Date().toISOString()
   });
 });
-
-// ... (error handlers and export default app)
 
 // --- ERROR HANDLERS (APPLIED ONCE) ---
 // 404 Not Found Handler
