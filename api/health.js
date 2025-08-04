@@ -43,7 +43,7 @@ app.use(rateLimit({
 }));
 
 // Health check route.
-app.get('/', async (req, res) => {
+app.get('/api/health', async (req, res) => {
   res.json({
     success: true,
     message: '🟢 API is working!',
