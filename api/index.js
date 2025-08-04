@@ -65,9 +65,6 @@ app.use((req, res, next) => {
 
 // --- ROUTES ---
 
-// Vercel routes requests to the serverless function with the /api prefix.
-// The Express app's routes must therefore also contain this prefix to match correctly.
-
 // Added a root route to prevent 404 on the base URL.
 app.get('/', (req, res) => {
   res.json({
@@ -82,11 +79,11 @@ app.get('/', (req, res) => {
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get('/favicon.png', (req, res) => res.status(204).end());
 
-// This will now correctly handle requests to: your-app.vercel.app/api/contact
-app.use('/api/contact', contactRoutes);
+// Create an API router to handle all endpoints under the '/api' path.
+const apiRouter = express.Router();
 
-// This will now correctly handle requests to: your-app.vercel.app/api/health
-app.get('/api/health', (req, res) => {
+// Health check route, mounted on the apiRouter.
+apiRouter.get('/health', (req, res) => {
   res.json({
     success: true,
     message: '🟢 API is working!',
@@ -94,6 +91,15 @@ app.get('/api/health', (req, res) => {
     time: new Date().toISOString()
   });
 });
+
+// Contact routes, also mounted on the apiRouter.
+apiRouter.use('/contact', contactRoutes);
+
+// Mount the apiRouter to the '/api' path in the main application.
+// This will now handle requests to:
+// - your-app.vercel.app/api/health
+// - your-app.vercel.app/api/contact
+app.use('/api', apiRouter);
 
 // --- ERROR HANDLERS (APPLIED ONCE) ---
 // 404 Not Found Handler
