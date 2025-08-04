@@ -37,8 +37,8 @@ const connectDB = async () => {
 connectDB();
 
 // --- MIDDLEWARES (APPLIED ONCE) ---
-// Setting 'trust proxy' to true to handle Vercel's proxy setup correctly,
-// which will fix the ValidationError from express-rate-limit.
+// Setting 'trust proxy' to true to handle Vercel's proxy setup correctly.
+// This will fix the ValidationError from express-rate-limit.
 app.set('trust proxy', true);
 app.use(helmet());
 app.use(cors({
@@ -65,7 +65,8 @@ app.use((req, res, next) => {
 
 // --- ROUTES ---
 
-// Vercel prefixes routes with /api. The Express app should handle the remaining path.
+// Vercel routes requests to the serverless function with the /api prefix.
+// The Express app's routes must therefore also contain this prefix to match correctly.
 
 // Added a root route to prevent 404 on the base URL.
 app.get('/', (req, res) => {
@@ -82,10 +83,10 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get('/favicon.png', (req, res) => res.status(204).end());
 
 // This will now correctly handle requests to: your-app.vercel.app/api/contact
-app.use('/contact', contactRoutes);
+app.use('/api/contact', contactRoutes);
 
 // This will now correctly handle requests to: your-app.vercel.app/api/health
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({
     success: true,
     message: '🟢 API is working!',
