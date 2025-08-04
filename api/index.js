@@ -62,12 +62,17 @@ app.use((req, res, next) => {
 });
 
 
-// --- ROUTES (APPLIED ONCE) ---
-// --- CORRECTED ROUTES ---
-// The public URL is still /api/contact, but Express handles it as /contact
+// Inside your /api/index.js file
+
+// ... (import statements, db connection, middleware)
+
+// --- ROUTES ---
+
+// This will correctly handle requests to: your-app.vercel.app/api/contact
+import contactRoutes from '../routes/contactRoutes.js'; // Note the path correction ../
 app.use('/contact', contactRoutes);
 
-// The public URL is still /api/health, but Express handles it as /health
+// This will correctly handle requests to: your-app.vercel.app/api/health
 app.get('/health', (req, res) => {
   res.json({
     success: true,
@@ -77,6 +82,7 @@ app.get('/health', (req, res) => {
   });
 });
 
+// ... (error handlers and export default app)
 
 // --- ERROR HANDLERS (APPLIED ONCE) ---
 // 404 Not Found Handler
