@@ -1,3 +1,5 @@
 import app from '../server.js';
 
-export default app; // This makes the Express app serverless-compatible
+export default function handler(req, res) {
+  return app(req, res);
+}
