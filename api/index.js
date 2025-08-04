@@ -73,6 +73,12 @@ app.get('/', (req, res) => {
   });
 });
 
+// Added routes to handle favicon requests and prevent 404 errors.
+// A 204 No Content status code is returned as this is a backend API,
+// not a frontend serving a static file.
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.get('/favicon.png', (req, res) => res.status(204).end());
+
 // This will now correctly handle requests to: your-app.vercel.app/api/contact
 app.use('/contact', contactRoutes);
 
