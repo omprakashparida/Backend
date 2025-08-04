@@ -63,9 +63,12 @@ app.use((req, res, next) => {
 
 
 // --- ROUTES (APPLIED ONCE) ---
-app.use('/api/contact', contactRoutes);
+// --- CORRECTED ROUTES ---
+// The public URL is still /api/contact, but Express handles it as /contact
+app.use('/contact', contactRoutes);
 
-app.get('/api/health', (req, res) => {
+// The public URL is still /api/health, but Express handles it as /health
+app.get('/health', (req, res) => {
   res.json({
     success: true,
     message: '🟢 API is working!',
