@@ -9,13 +9,14 @@ import contactRoutes from './routes/contactRoutes.js';
 dotenv.config();
 
 const app = express();
+// ✅ Fixes rate-limit issue with Vercel (important!)
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 5000;
 
 // 🛡️ Security middleware
 app.use(helmet());
 
-// ✅ Fixes rate-limit issue with Vercel (important!)
-app.set('trust proxy', 1);
+
 
 // 🌐 CORS setup
 const corsOptions = {
