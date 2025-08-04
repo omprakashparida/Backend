@@ -112,8 +112,6 @@ app.use((err, req, res, next) => {
 });
 
 // --- EXPORT THE HANDLER FOR VERCEL ---
-// This is the pattern you shared, which explicitly
-// defines a serverless function handler.
-export default function handler(req, res) {
-  return app(req, res);
-}
+// This is a more robust pattern for Vercel, which will automatically wrap the
+// Express app as a serverless function.
+export default app;
