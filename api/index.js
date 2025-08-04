@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
-import contactRoutes from '../routes/contactRoutes.js'; // This is the correct and only import needed.
+import contactRoutes from '../routes/contactRoutes.js';
 
 dotenv.config();
 
@@ -37,9 +37,9 @@ const connectDB = async () => {
 connectDB();
 
 // --- MIDDLEWARES (APPLIED ONCE) ---
-// Setting 'trust proxy' to true to handle Vercel's proxy setup correctly.
+// Setting 'trust proxy' to 1 is the correct and secure setting for Vercel.
 // This will fix the ValidationError from express-rate-limit.
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
