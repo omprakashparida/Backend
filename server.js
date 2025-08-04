@@ -109,5 +109,15 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
+
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Server is running 💪',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // ✅ Correct ESM export for Vercel
 export default app;
