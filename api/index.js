@@ -64,10 +64,10 @@ app.use((req, res, next) => {
 // --- ROUTES ---
 
 // This will correctly handle requests to: your-app.vercel.app/api/contact
-// app.use('/contact', contactRoutes);
+app.use('/contact', contactRoutes);
 
 // This will correctly handle requests to: your-app.vercel.app/api/health
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.json({
     success: true,
     message: '🟢 API is working!',
