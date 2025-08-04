@@ -63,10 +63,20 @@ app.use((req, res, next) => {
 
 // --- ROUTES ---
 
-// This will correctly handle requests to: your-app.vercel.app/api/contact
+// Vercel prefixes routes with /api. The Express app should handle the remaining path.
+
+// Added a root route to prevent 404 on the base URL.
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to the Vercel API. Use /api/health or /api/contact to access API endpoints.'
+  });
+});
+
+// This will now correctly handle requests to: your-app.vercel.app/api/contact
 app.use('/contact', contactRoutes);
 
-// This will correctly handle requests to: your-app.vercel.app/api/health
+// This will now correctly handle requests to: your-app.vercel.app/api/health
 app.get('/health', (req, res) => {
   res.json({
     success: true,
