@@ -1,11 +1,5 @@
 # Portfolio Backend API
 
-Backend API for Om Prakash's portfolio contact form.
-
-
-
-6. **Deploy!** Vercel will automatically build and deploy your app
-7. **Copy the generated URL** (e.g., `https://your-backend-app.vercel.app`)
 
 ## 🔧 Local Development
 
