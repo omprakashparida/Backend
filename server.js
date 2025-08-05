@@ -11,6 +11,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ✅ Trust proxy for Render
+app.set('trust proxy', 1);
+
 // 🛡️ Security middleware
 app.use(helmet());
 
@@ -54,9 +57,10 @@ const connectDB = async () => {
 };
 
 // 📬 API Routes
-app.use('/api/contact', contactRoutes);
+app.use('/contact', contactRoutes); // So your form will POST to /contact/submit
 
-app.get('/api/health', (req, res) => {
+// ✅ Health check
+app.get('/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: '🟢 API is working!',
@@ -69,7 +73,7 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-// 🛠️ Error handler
+// 🛠️ Global Error handler
 app.use((err, req, res, next) => {
   console.error('❌ Global Error:', err);
   res.status(500).json({
