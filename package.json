@@ -11,6 +11,6 @@
     "dotenv": "^16.3.1",
     "mongoose": "^7.5.0",
     "express-rate-limit": "^6.7.0",
-    "express-validator": "^6.16.1"
+    "express-validator": "^6.15.0"
   }
 }
