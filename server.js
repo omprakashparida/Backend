@@ -63,7 +63,7 @@ const connectDB = async () => {
 };
 
 // 📬 API Routes
-app.use('/contact', contactRoutes); // So your form will POST to /contact/submit
+app.use('/api/contact', contactRoutes); // So your form will POST to /contact/submit
 
 // ✅ Health check
 app.get('/health', (req, res) => {
