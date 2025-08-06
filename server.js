@@ -18,12 +18,18 @@ app.set('trust proxy', 1);
 app.use(helmet());
 
 // 🌐 CORS setup
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : '*';
+
 const corsOptions = {
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200
 };
+
 app.use(cors(corsOptions));
+
 
 // ⚡ Rate limiter
 app.use(rateLimit({
